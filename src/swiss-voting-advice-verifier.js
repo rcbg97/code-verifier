@@ -12,7 +12,7 @@ class SwissVotingAdviceVerifier extends PolymerElement {
       },
       candidates: {
         type: Array,
-        value: [{firstName: "Nicole", lastName:"Barandun", match: 35.6, answers: [
+        value: [{firstName: "Nicole", lastName:"Barandun", match: 48.9, answers: [
           {
             "id": "44400007640",
             "questionId": "3412",
@@ -642,6 +642,346 @@ class SwissVotingAdviceVerifier extends PolymerElement {
             "questionId": "3392",
             "value": 100,
             "weight": "SAME"
+          },
+          {
+            "questionId": "3398",
+            "value": 25,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3399",
+            "value": 0,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3412",
+            "value": 0,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3413",
+            "value": 0,
+            "weight": "DOUBLE"
+          },
+          {
+            "questionId": "3414",
+            "value": 0,
+            "weight": "HALF"
+          },
+          {
+            "questionId": "3416",
+            "value": 25,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3417",
+            "value": 75,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3418",
+            "value": 25,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3419",
+            "value": 75,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3420",
+            "value": 75,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3421",
+            "value": 75,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3422",
+            "value": 75,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3423",
+            "value": 100,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3424",
+            "value": 75,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3425",
+            "value": 100,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3426",
+            "value": 75,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3427",
+            "value": 75,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3428",
+            "value": 25,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3429",
+            "value": 0,
+            "weight": "DOUBLE"
+          },
+          {
+            "questionId": "3430",
+            "value": 75,
+            "weight": "HALF"
+          },
+          {
+            "questionId": "3431",
+            "value": 25,
+            "weight": "DOUBLE"
+          },
+          {
+            "questionId": "3432",
+            "value": 75,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3433",
+            "value": 75,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3434",
+            "value": 100,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3435",
+            "value": 75,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3436",
+            "value": 25,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3437",
+            "value": 0,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3438",
+            "value": 25,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3439",
+            "value": 25,
+            "weight": "DOUBLE"
+          },
+          {
+            "questionId": "3440",
+            "value": 0,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3441",
+            "value": 25,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3443",
+            "value": 100,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3444",
+            "value": 25,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3445",
+            "value": 0,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3446",
+            "value": 100,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3447",
+            "value": 25,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3448",
+            "value": 100,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3449",
+            "value": 75,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3450",
+            "value": 100,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3451",
+            "value": 0,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3452",
+            "value": 25,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3453",
+            "value": 0,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3454",
+            "value": 100,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3455",
+            "value": 25,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3456",
+            "value": 100,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3457",
+            "value": 0,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3458",
+            "value": 100,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3459",
+            "value": 25,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3460",
+            "value": 100,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3461",
+            "value": 75,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3462",
+            "value": 25,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3463",
+            "value": 0,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3464",
+            "value": 0,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3465",
+            "value": 17,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3466",
+            "value": 33,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3467",
+            "value": 0,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3468",
+            "value": 100,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3469",
+            "value": 75,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3470",
+            "value": 25,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3471",
+            "value": 0,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3472",
+            "value": 100,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3473",
+            "value": 25,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3474",
+            "value": 75,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3475",
+            "value": 0,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3476",
+            "value": 75,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3477",
+            "value": 25,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3478",
+            "value": 75,
+            "weight": "SAME"
+          },
+          {
+            "questionId": "3479",
+            "value": 100,
+            "weight": "SAME"
           }
         ]
       }
@@ -654,11 +994,11 @@ class SwissVotingAdviceVerifier extends PolymerElement {
     var matching = 0;
     var j = 0;
     for (var i = 0; i < this.answers.length; i++) {
-        var candidateValue = this.candidates[0].answers.find(x => x.questionId === this.answers[i].questionId).value;
-        var myValue = this.answers[i].value;
-        var myWeight = this.answers[i].weight === "DOUBLE" ? 2 : this.answers[i].weight === "HALF" ? 0.5 : 1;
-        distance += Math.pow(myWeight * (myValue - candidateValue), 2);
-        maxDistance += Math.pow((100 * myWeight), 2);
+      var candidateValue = this.candidates[0].answers.find(x => x.questionId === this.answers[i].questionId).value;
+      var myValue = this.answers[i].value;
+      var myWeight = this.answers[i].weight === "DOUBLE" ? 2 : this.answers[i].weight === "HALF" ? 0.5 : 1;
+      distance += Math.pow(myWeight * (myValue - candidateValue), 2);
+      maxDistance += Math.pow((100 * myWeight), 2);
     }
     distance = Math.sqrt(distance);
     maxDistance = Math.sqrt(maxDistance);
@@ -679,25 +1019,30 @@ class SwissVotingAdviceVerifier extends PolymerElement {
       display: flex;
       justify-content: space-between;
     }
+    td {
+      text-align: center;
+    }
     </style>
 
     <div class="flexBoxWrapper">
     <h1>Swiss voting advice verifier</h1>
     <paper-button raised on-click="_calculateActualValue">Calculate match</paper-button>
-    <div class="headerFlexBox">
-    <h4>First name</h4>
-    <h4>Last name</h4>
-    <h4>Match value</h4>
-    <h4>Calculated value</h4>
-    </div>
+    <table>
+    <tr>
+    <th>First name</th>
+    <th>Last name</th>
+    <th>Match value</th>
+    <th>Calculated value</th>
+    </tr>
     <template is="dom-repeat" items={{candidates}}>
-    <div class="candidateRowFlexBox">
-    <p>{{item.firstName}}</p>
-    <p>{{item.lastName}}</p>
-    <p>{{item.match}}</p>
-    <p>{{item.calculatedMatch}}</p>
-    </div>
+    <tr>
+    <td>{{item.firstName}}</td>
+    <td>{{item.lastName}}</td>
+    <td>{{item.match}}</td>
+    <td>{{item.calculatedMatch}}</td>
+    </tr>
     </template>
+    </table>
     </div>
     `;
   }
