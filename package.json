@@ -5,6 +5,7 @@
   "repository": "https://github.com/rcbg97/code-verifier.git",
   "author": "Roberto Baumann",
   "dependencies": {
+    "@polymer/iron-ajax": "^3.0.1",
     "@polymer/paper-button": "^3.0.1",
     "@polymer/paper-checkbox": "latest",
     "@polymer/polymer": "latest",
