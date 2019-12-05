@@ -1,0 +1,13 @@
+{
+  "name": "swiss-voting system verifier",
+  "version": "3.0.0",
+  "main": "src/swiss-voting-advice-verifier.js",
+  "repository": "https://github.com/rcbg97/code-verifier.git",
+  "author": "Roberto Baumann",
+  "dependencies": {
+    "@polymer/paper-button": "^3.0.1",
+    "@polymer/paper-checkbox": "latest",
+    "@polymer/polymer": "latest",
+    "@webcomponents/webcomponentsjs": "latest"
+  }
+}
