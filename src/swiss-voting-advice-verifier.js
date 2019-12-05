@@ -615,7 +615,7 @@ class SwissVotingAdviceVerifier extends PolymerElement {
           }
         ]}]
       },
-      answer: {
+      answers: {
         type: Array,
         value:[
           {
@@ -651,10 +651,19 @@ class SwissVotingAdviceVerifier extends PolymerElement {
   _calculateActualValue(){
     var distance = 0;
     var maxDistance = 0;
-    for (var i = 0; i < array.length; i++) {
-      array[i]
+    var matching = 0;
+    var j = 0;
+    for (var i = 0; i < this.answers.length; i++) {
+        var candidateValue = this.candidates[0].answers.find(x => x.questionId === this.answers[i].questionId).value;
+        var myValue = this.answers[i].value;
+        var myWeight = this.answers[i].weight === "DOUBLE" ? 2 : this.answers[i].weight === "HALF" ? 0.5 : 1;
+        distance += Math.pow(myWeight * (myValue - candidateValue), 2);
+        maxDistance += Math.pow((100 * myWeight), 2);
     }
-    console.log("hello")
+    distance = Math.sqrt(distance);
+    maxDistance = Math.sqrt(maxDistance);
+    matching = 100 * (1- (distance/maxDistance));
+    this.set('candidates.' + j + '.calculatedMatch', matching);
   }
 
   static get template () {
@@ -681,12 +690,12 @@ class SwissVotingAdviceVerifier extends PolymerElement {
     <h4>Match value</h4>
     <h4>Calculated value</h4>
     </div>
-    <template is="dom-repeat" items=[[candidates]]>
+    <template is="dom-repeat" items={{candidates}}>
     <div class="candidateRowFlexBox">
-    <p>[[item.firstName]]</p>
-    <p>[[item.lastName]]</p>
-    <p>[[item.match]]</p>
-    <p>[[item.calculatedMatch]]</p>
+    <p>{{item.firstName}}</p>
+    <p>{{item.lastName}}</p>
+    <p>{{item.match}}</p>
+    <p>{{item.calculatedMatch}}</p>
     </div>
     </template>
     </div>
