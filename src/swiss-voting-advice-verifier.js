@@ -6,6 +6,7 @@ import '@polymer/paper-item/paper-item.js';
 import '@polymer/paper-listbox/paper-listbox.js';
 import '@polymer/paper-dropdown-menu/paper-dropdown-menu.js';
 import '@polymer/iron-ajax/iron-ajax.js';
+import '@polymer/paper-toggle-button/paper-toggle-button.js';
 import './service-connector.js';
 import { setPassiveTouchGestures } from '@polymer/polymer/lib/utils/settings';
 
@@ -18,7 +19,10 @@ class SwissVotingAdviceVerifier extends PolymerElement {
       candidatesRequest: {
         type: Array,
       },
-      idForVoting: {
+      idForVotingDistrict: {
+        type: String
+      },
+      idForVotingElectionId: {
         type: String
       },
       dropdownCantons: {
@@ -71,12 +75,13 @@ class SwissVotingAdviceVerifier extends PolymerElement {
     this.answersRequest = answers;
     var requester = this.$.smartVoteIdRequester;
     requester.url = this.$.connector.getSmartvoteUrl();
+    console.log(this.idForVotingDistrict);
     requester.body = {
       "operationName": "CreateRecommendation",
       "variables": {
         "options": {
-          "electionId": "223",
-          "districtId": this.idForVoting,
+          "electionId": this.idForVotingElectionId,
+          "districtId": this.idForVotingDistrict,
           "responderType": "Candidate",
           "voterId": "4a158b00-0187-11ea-a56b-a7b17dfd8fdc",
           "origin": "smartvote",
@@ -113,7 +118,7 @@ class SwissVotingAdviceVerifier extends PolymerElement {
       requester.body = {
         "operationName":"getCandidate",
         "variables":{
-          "electionId":"223",
+          "electionId": this.idForVotingElectionId,
           "candidateId": candidateId
         },
         "query":"query getCandidate($electionId: ID!, $candidateId: ID!) {\n  candidate(electionId: $electionId, candidateId: $candidateId) {\n    ...PublicCandidate\n    __typename\n  }\n}\n\nfragment PublicCandidate on Candidate {\n  id\n  firstname\n  lastname\n  yearOfBirth\n  city\n  country\n  publicEmailAddress\n  gender\n  denomination {\n    id\n    name\n    __typename\n  }\n  civilState {\n    id\n    name\n    __typename\n  }\n  nofChildren\n  isIncumbent\n  isElected\n  district {\n    id\n    name\n    __typename\n  }\n  party {\n    id\n    color\n    name\n    abbreviation\n    __typename\n  }\n  list {\n    id\n    name\n    __typename\n  }\n  listPlaces {\n    id\n    position\n    number\n    __typename\n  }\n  profileImageUrl\n  slogan\n  commentedTopics {\n    id\n    name\n    comment\n    sortorder\n    __typename\n  }\n  funding {\n    id\n    amount\n    comment\n    __typename\n  }\n  politicalMandates {\n    id\n    name\n    dateStart\n    dateEnd\n    __typename\n  }\n  vestedInterests {\n    id\n    sortorder\n    name\n    board {\n      id\n      name\n      __typename\n    }\n    position {\n      id\n      name\n      __typename\n    }\n    legalForm {\n      id\n      name\n      __typename\n    }\n    __typename\n  }\n  website\n  facebook\n  twitter\n  instagram\n  video\n  additionalLink\n  education {\n    id\n    name\n    __typename\n  }\n  occupation\n  employers\n  hobbies\n  favoriteBooks\n  favoriteMovies\n  favoriteMusic\n  smartspider {\n    id\n    options {\n      id\n      cssClass\n      fill\n      __typename\n    }\n    axes {\n      id\n      cleavage {\n        id\n        name\n        __typename\n      }\n      value\n      __typename\n    }\n    __typename\n  }\n  hasSmartvoteProfile\n  answers {\n    ...Answer\n    __typename\n  }\n  __typename\n}\n\nfragment Answer on Answer {\n  id\n  questionId\n  value\n  weight\n  comment\n  __typename\n}\n"
@@ -165,12 +170,27 @@ class SwissVotingAdviceVerifier extends PolymerElement {
     alert("could not fetch candidate!");
   }
 
-  cantonChanged(e){
-    this.idForVoting = this.dropdownCantons[e.detail.value].idSr;
+  _cantonChanged(){
+    this._changeVotingParameters();
   }
+
+  _changedElectionType(){
+    this._changeVotingParameters();
+  }
+
+  _changeVotingParameters(){
+    if (this.$.cantonSelectorDropdown.selected) {
+      this.idForVotingDistrict = this.$.electionTypeChanger.checked ? this.dropdownCantons[this.$.cantonSelectorDropdown.selected].idNr : this.dropdownCantons[this.$.cantonSelectorDropdown.selected].idSr;
+    }
+    this.idForVotingElectionId = this.$.electionTypeChanger.checked ? "222" : "223";
+  }
+
   static get template () {
     return html`
     <style>
+    .flexBox{
+      display: flex;
+    }
     .flexBoxWrapper{
       display: flex;
       flex-direction: column;
@@ -201,18 +221,31 @@ class SwissVotingAdviceVerifier extends PolymerElement {
     .badErrorMargin {
       color: red;
     }
+    .marginRight {
+      margin-right: 5%;
+    }
+    .marginTop {
+      margin-top:1%;
+    }
 
     </style>
 
     <div class="flexBoxWrapper">
-    <h1 class="centeredInFlexbox">Swiss voting advice verifier (only smartvote right now, zurich-ständerat hahaha)</h1>
-    <paper-dropdown-menu class="flexStart" label="Select your canton">
-    <paper-listbox slot="dropdown-content" on-selected-changed="cantonChanged">
+    <h1 class="centeredInFlexbox">Swiss voting advice verifier (only smartvote)</h1>
+    <div class="flexBox">
+    <paper-dropdown-menu class="flexStart marginRight" label="Select your canton">
+    <paper-listbox id="cantonSelectorDropdown" slot="dropdown-content" on-selected-changed="_cantonChanged">
     <template id ="dropDownForSelection" is="dom-repeat" items="{{dropdownCantons}}">
     <paper-item>{{item.name}}</paper-item>
     </template>
     </paper-listbox>
     </paper-dropdown-menu>
+    <div class="flexBox marginTop">
+    <span class="centeredInFlexbox marginRight">Ständerat</span>
+    <paper-toggle-button id="electionTypeChanger" noink on-checked-changed="_changedElectionType"></paper-toggle-button>
+    <span class="centeredInFlexbox">Nationalrat</span>
+    </div>
+    </div>
     <p>Enter the answers you want to evaluate (F12 -> graphhql -> operationName = "CreateRecommendation" -> variables.answers (view source))</p>
     <paper-input id="jsonInput" label="Enter your json-recommendation!"></paper-input>
     <paper-button class="flexEnd" raised on-click="_requestRequestRecommendationId">Calculate match</paper-button>
