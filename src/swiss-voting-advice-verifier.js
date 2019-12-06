@@ -401,6 +401,7 @@ class SwissVotingAdviceVerifier extends PolymerElement {
     for (var i = 0; i < this.answers.length; i++) {
       if (this.candidates[index].answers.length == 0) {
         this.set('candidates.' + index + '.calculatedMatch', "N/A");
+        this.set('candidates.' + index + '.errorMargin', "N/A");
         return;
       }
       var candidateValue = this.candidates[index].answers.find(x => x.questionId === this.answers[i].questionId).value;
@@ -412,7 +413,12 @@ class SwissVotingAdviceVerifier extends PolymerElement {
     distance = Math.sqrt(distance);
     maxDistance = Math.sqrt(maxDistance);
     matching = 100 * (1- (distance/maxDistance));
+    var errorMargin = (matching - this.candidates[index].match) / matching * 100 > 0 ?  "+" + ((matching - this.candidates[index].match) / matching * 100).toFixed(2) + "%" : ((matching - this.candidates[index].match) / matching * 100).toFixed(2) + "%";
+    var colorErrorMargin = Math.abs((matching - this.candidates[index].match) / matching) < 0.01 ?  "goodErrorMargin" : "badErrorMargin";
+    matching = matching.toFixed(1) + "%";
     this.set('candidates.' + index + '.calculatedMatch', matching);
+    this.set('candidates.' + index + '.errorMargin', errorMargin);
+    this.set('candidates.' + index + '.colorError', colorErrorMargin);
   }
 
   _requestCandidate(){
@@ -455,30 +461,41 @@ class SwissVotingAdviceVerifier extends PolymerElement {
       display: flex;
       justify-content: space-between;
     }
-    td {
-      text-align: center;
-    }
     .centeredInFlexbox {
       align-self: center;
+    }
+    .rightAlignedNumber {
+      text-align: right;
+    }
+    .leftAlignedNameSection {
+      text-align: left;
+    }
+    .goodErrorMargin {
+      color: green;
+    }
+    .badErrorMargin {
+      color: red;
     }
     </style>
 
     <div class="flexBoxWrapper">
-    <h1 class="centeredInFlexbox">Swiss voting advice verifier (only smartvote right now)</h1>
+    <h1 class="centeredInFlexbox">Swiss voting advice verifier (only smartvote right now, zurich-ständerat hahaha)</h1>
     <paper-button class="centeredInFlexbox" raised on-click="_requestCandidate">Calculate match</paper-button>
     <table>
     <tr>
-    <th>First name</th>
-    <th>Last name</th>
-    <th>Match value</th>
-    <th>Calculated value</th>
+    <th class="leftAlignedNameSection">First name</th>
+    <th class="leftAlignedNameSection">Last name</th>
+    <th class="rightAlignedNumber">Match value</th>
+    <th class="rightAlignedNumber">Calculated value</th>
+    <th class="rightAlignedNumber">Error margin</th>
     </tr>
     <template is="dom-repeat" items={{candidates}}>
     <tr>
-    <td>{{item.firstName}}</td>
-    <td>{{item.lastName}}</td>
-    <td>{{item.match}}</td>
-    <td>{{item.calculatedMatch}}</td>
+    <td class="leftAlignedNameSection">{{item.firstName}}</td>
+    <td class="leftAlignedNameSection">{{item.lastName}}</td>
+    <td class="rightAlignedNumber">{{item.match}}</td>
+    <td class="rightAlignedNumber">{{item.calculatedMatch}}</td>
+    <td  class$="[[item.colorError]] rightAlignedNumber">{{item.errorMargin}}</td>
     </tr>
     </template>
     </table>
