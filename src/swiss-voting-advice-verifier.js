@@ -1,6 +1,7 @@
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import '@polymer/polymer/lib/elements/dom-if.js';
 import '@polymer/paper-button/paper-button.js';
+import '@polymer/paper-input/paper-input.js';
 import '@polymer/iron-ajax/iron-ajax.js';
 import './service-connector.js';
 import { setPassiveTouchGestures } from '@polymer/polymer/lib/utils/settings';
@@ -12,7 +13,7 @@ class SwissVotingAdviceVerifier extends PolymerElement {
         type: String,
         value: ''
       },
-      candidates: {
+      candidateMock: {
         type: Array,
         value: [{firstName: "Paulin", lastName:"Kqira", match: 51.2, id: 44400010203}, {firstName: "Nik", lastName: "Gugger", match: 49.1, id: 44400000196},
         {firstName: "Nicole", lastName:"Barandun", match: 48.9, id: 44400000194}, {firstName: "Tiana", lastName: "Moser", match: 44.9, id: 44400000348},
@@ -20,6 +21,9 @@ class SwissVotingAdviceVerifier extends PolymerElement {
         {firstName: "Ruedi", lastName:"Noser", match: 40.8, id: 44400000124}, {firstName: "Jan", lastName: "Linhart", match: 40.6, id: 44400000385},
         {firstName: "Daniel", lastName: "Jositsch", match: 38.4, id: 44400000123}, {firstName: "Marionna", lastName: "Schlatter-Schmid", match: 37.3, id: 44400000195},
         {firstName: "Roger", lastName: "Köppel", match: "N/A", id: 44400001296}]
+      },
+      candidates :{
+        type: Array
       },
       answers: {
         type: Array,
@@ -421,10 +425,49 @@ class SwissVotingAdviceVerifier extends PolymerElement {
     this.set('candidates.' + index + '.colorError', colorErrorMargin);
   }
 
+  _requestRequestRecommendationId(){
+    var answers = JSON.parse(this.$.jsonInput.value);
+    this.answersRequest = answers;
+    var requester = this.$.smartVoteIdRequester;
+    requester.url = this.$.connector.getSmartvoteUrl();
+    requester.body = {
+      "operationName": "CreateRecommendation",
+      "variables": {
+        "options": {
+          "electionId": "223",
+          "districtId": "44400000024",
+          "responderType": "Candidate",
+          "voterId": "4a158b00-0187-11ea-a56b-a7b17dfd8fdc",
+          "origin": "smartvote",
+          "answers": answers
+          ,
+          "env": "production",
+          "questionnaireType": "deluxe",
+          "userSurvey": "{\"yearOfBirth\":\"\",\"educationId\":\"\",\"gender\":\"\",\"interest\":\"\",\"orientation\":\"\",\"party\":\"\",\"zip\":\"\"}"
+        }
+      },
+      "query": "mutation CreateRecommendation($options: RecommendationOptionsInput!) {\n  createRecommendation(options: $options) {\n    id\n    __typename\n  }\n}\n"
+    };
+    requester.method = "POST";
+    requester.generateRequest();
+  }
+
+  _requestCalculation(id){
+    var requester = this.$.smartVoteCalculationRequester;
+    requester.url = this.$.connector.getSmartvoteUrl();
+    requester.body = {
+      "operationName": "recommendationQuery",
+      "variables":{"id":id},
+      "query":"query recommendationQuery($id: String!, $offset: Int, $limit: Int) {\n  recommendation(id: $id, offset: $offset, limit: $limit) {\n    ...Recommendation\n    __typename\n  }\n}\n\nfragment Recommendation on Recommendation {\n  id\n  matchings {\n    ...Matching\n    __typename\n  }\n  options {\n    ...RecommendationOptions\n    __typename\n  }\n  voter {\n    id\n    smartspider {\n      id\n      axes {\n        id\n        cleavage {\n          id\n          name\n          __typename\n        }\n        value\n        __typename\n      }\n      options {\n        id\n        cssClass\n        fill\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n  __typename\n}\n\nfragment Matching on Matching {\n  id\n  responderId\n  responderType\n  responder {\n    ... on Candidate {\n      id\n      firstname\n      lastname\n      yearOfBirth\n      profileImageUrl\n      isIncumbent\n      isElected\n      gender\n      partyAbbreviation\n      partyColor\n      hasSmartvoteProfile\n      listPlaces {\n        id\n        position\n        number\n        __typename\n      }\n      __typename\n    }\n    ... on List {\n      id\n      name\n      hasSmartvoteProfile\n      nofRegisteredCandidates\n      nofConfirmedCandidates\n      colorCode\n      candidateMatchings {\n        responderId\n        matchValue\n        categoryMatchings {\n          ...CategoryMatching\n          __typename\n        }\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n  matchValue\n  rank\n  categoryMatchings {\n    ...CategoryMatching\n    __typename\n  }\n  __typename\n}\n\nfragment RecommendationOptions on RecommendationOptions {\n  id\n  electionId\n  districtId\n  nofAnswers\n  responderType\n  __typename\n}\n\nfragment CategoryMatching on CategoryMatching {\n  id\n  categoryId\n  matchValue\n  __typename\n}\n"
+    };
+    requester.method = "POST";
+    requester.generateRequest();
+  }
+
   _requestCandidate(){
     for (var i = 0; i < this.candidates.length; i++) {
       var candidateId = this.candidates[i].id;
-      var requester = this.$.smartVoteRequester;
+      var requester = this.$.smartVoteRequesterCandidateInfo;
       requester.url = this.$.connector.getSmartvoteUrl();
       requester.body = {
         "operationName":"getCandidate",
@@ -439,6 +482,25 @@ class SwissVotingAdviceVerifier extends PolymerElement {
     }
   }
 
+  _receivedRecommendationId(e){
+    var id = e.detail.response.data.createRecommendation.id;
+    this._requestCalculation(id)
+  }
+
+  _receivedCalculation(e){
+    var candidatesWithMatchings = e.detail.response.data.recommendation.matchings;
+    var myCandidatesMatchinginfo = [];
+    for (var i = 0; i < candidatesWithMatchings.length; i++) {
+      let myCandidate = {};
+      myCandidate.id = candidatesWithMatchings[i].responder.id;
+      myCandidate.firstName = candidatesWithMatchings[i].responder.firstname;
+      myCandidate.lastName = candidatesWithMatchings[i].responder.lastname;
+      myCandidate.match = candidatesWithMatchings[i].matchValue ? candidatesWithMatchings[i].matchValue: "N/A";
+      myCandidatesMatchinginfo.push(myCandidate)
+    }
+    this.set('candidatesRequest', myCandidatesMatchinginfo)
+  }
+
   _receivedCandidate(e){
     var id = e.detail.response.data.candidate.id;
     var index = this.candidates.findIndex(x => x.id == id)
@@ -446,8 +508,15 @@ class SwissVotingAdviceVerifier extends PolymerElement {
     this._calculateActualValue(index);
   }
 
-  _somethingWentWrong(){
-    alert("oh oh");
+  _idErrorRequest(){
+    alert("could not get id for calculation!");
+  }
+
+  _calculationErrorRequest(){
+    alert("could not get calculation for id!");
+  }
+  _candidateFetchingRequest(){
+    alert("could not fetch candidate!");
   }
 
   static get template () {
@@ -463,6 +532,9 @@ class SwissVotingAdviceVerifier extends PolymerElement {
     }
     .centeredInFlexbox {
       align-self: center;
+    }
+    .flexEnd {
+      align-self: flex-end;
     }
     .rightAlignedNumber {
       text-align: right;
@@ -480,7 +552,9 @@ class SwissVotingAdviceVerifier extends PolymerElement {
 
     <div class="flexBoxWrapper">
     <h1 class="centeredInFlexbox">Swiss voting advice verifier (only smartvote right now, zurich-ständerat hahaha)</h1>
-    <paper-button class="centeredInFlexbox" raised on-click="_requestCandidate">Calculate match</paper-button>
+    <p>Enter the answers you want to evaluate (F12 -> graphhql -> operationName == "CreateRecommendation" -> variables.answers (view source))</p>
+    <paper-input id="jsonInput" label="Enter your json-recommendation!"></paper-input>
+    <paper-button class="flexEnd" raised on-click="_requestRequestRecommendationId">Calculate match</paper-button>
     <table>
     <tr>
     <th class="leftAlignedNameSection">First name</th>
@@ -501,7 +575,9 @@ class SwissVotingAdviceVerifier extends PolymerElement {
     </table>
     </div>
     <service-connector id="connector"><service-connector>
-    <iron-ajax id="smartVoteRequester" handle-as="json" content-type="application/json" on-response=_receivedCandidate on-error="_somethingWentWrong"></iron-ajax>
+    <iron-ajax id="smartVoteIdRequester" handle-as="json" content-type="application/json" on-response=_receivedRecommendationId on-error="_idErrorRequest"></iron-ajax>
+    <iron-ajax id="smartVoteCalculationRequester" handle-as="json" content-type="application/json" on-response=_receivedCalculation on-error="_calculationErrorRequest"></iron-ajax>
+    <iron-ajax id="smartVoteRequesterCandidateInfo" handle-as="json" content-type="application/json" on-response=_receivedCandidate on-error="_candidateFetchingRequest"></iron-ajax>
     `;
   }
 }
