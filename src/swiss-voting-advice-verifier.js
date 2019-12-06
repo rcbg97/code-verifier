@@ -9,391 +9,11 @@ import { setPassiveTouchGestures } from '@polymer/polymer/lib/utils/settings';
 class SwissVotingAdviceVerifier extends PolymerElement {
   static get properties () {
     return {
-      message: {
-        type: String,
-        value: ''
-      },
-      candidateMock: {
+      answersRequest: {
         type: Array,
-        value: [{firstName: "Paulin", lastName:"Kqira", match: 51.2, id: 44400010203}, {firstName: "Nik", lastName: "Gugger", match: 49.1, id: 44400000196},
-        {firstName: "Nicole", lastName:"Barandun", match: 48.9, id: 44400000194}, {firstName: "Tiana", lastName: "Moser", match: 44.9, id: 44400000348},
-        {firstName: "Dario", lastName: "Miglioretto", match: 43.3, id: 44400027461}, {firstName: "Klaus", lastName: "Marte", match: 40.8, id: 44400017786},
-        {firstName: "Ruedi", lastName:"Noser", match: 40.8, id: 44400000124}, {firstName: "Jan", lastName: "Linhart", match: 40.6, id: 44400000385},
-        {firstName: "Daniel", lastName: "Jositsch", match: 38.4, id: 44400000123}, {firstName: "Marionna", lastName: "Schlatter-Schmid", match: 37.3, id: 44400000195},
-        {firstName: "Roger", lastName: "Köppel", match: "N/A", id: 44400001296}]
       },
-      candidates :{
-        type: Array
-      },
-      answers: {
+      candidatesRequest: {
         type: Array,
-        value:[
-          {
-            "questionId": "3387",
-            "value": 83,
-            "weight": "DOUBLE"
-          },
-          {
-            "questionId": "3388",
-            "value": 83,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3389",
-            "value": 100,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3391",
-            "value": 0,
-            "weight": "DOUBLE"
-          },
-          {
-            "questionId": "3392",
-            "value": 100,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3398",
-            "value": 25,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3399",
-            "value": 0,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3412",
-            "value": 0,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3413",
-            "value": 0,
-            "weight": "DOUBLE"
-          },
-          {
-            "questionId": "3414",
-            "value": 0,
-            "weight": "HALF"
-          },
-          {
-            "questionId": "3416",
-            "value": 25,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3417",
-            "value": 75,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3418",
-            "value": 25,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3419",
-            "value": 75,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3420",
-            "value": 75,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3421",
-            "value": 75,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3422",
-            "value": 75,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3423",
-            "value": 100,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3424",
-            "value": 75,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3425",
-            "value": 100,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3426",
-            "value": 75,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3427",
-            "value": 75,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3428",
-            "value": 25,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3429",
-            "value": 0,
-            "weight": "DOUBLE"
-          },
-          {
-            "questionId": "3430",
-            "value": 75,
-            "weight": "HALF"
-          },
-          {
-            "questionId": "3431",
-            "value": 25,
-            "weight": "DOUBLE"
-          },
-          {
-            "questionId": "3432",
-            "value": 75,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3433",
-            "value": 75,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3434",
-            "value": 100,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3435",
-            "value": 75,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3436",
-            "value": 25,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3437",
-            "value": 0,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3438",
-            "value": 25,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3439",
-            "value": 25,
-            "weight": "DOUBLE"
-          },
-          {
-            "questionId": "3440",
-            "value": 0,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3441",
-            "value": 25,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3443",
-            "value": 100,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3444",
-            "value": 25,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3445",
-            "value": 0,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3446",
-            "value": 100,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3447",
-            "value": 25,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3448",
-            "value": 100,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3449",
-            "value": 75,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3450",
-            "value": 100,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3451",
-            "value": 0,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3452",
-            "value": 25,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3453",
-            "value": 0,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3454",
-            "value": 100,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3455",
-            "value": 25,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3456",
-            "value": 100,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3457",
-            "value": 0,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3458",
-            "value": 100,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3459",
-            "value": 25,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3460",
-            "value": 100,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3461",
-            "value": 75,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3462",
-            "value": 25,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3463",
-            "value": 0,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3464",
-            "value": 0,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3465",
-            "value": 17,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3466",
-            "value": 33,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3467",
-            "value": 0,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3468",
-            "value": 100,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3469",
-            "value": 75,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3470",
-            "value": 25,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3471",
-            "value": 0,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3472",
-            "value": 100,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3473",
-            "value": 25,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3474",
-            "value": 75,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3475",
-            "value": 0,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3476",
-            "value": 75,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3477",
-            "value": 25,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3478",
-            "value": 75,
-            "weight": "SAME"
-          },
-          {
-            "questionId": "3479",
-            "value": 100,
-            "weight": "SAME"
-          }
-        ]
       }
     };
   }
@@ -402,27 +22,30 @@ class SwissVotingAdviceVerifier extends PolymerElement {
     var distance = 0;
     var maxDistance = 0;
     var matching = 0;
-    for (var i = 0; i < this.answers.length; i++) {
-      if (this.candidates[index].answers.length == 0) {
-        this.set('candidates.' + index + '.calculatedMatch', "N/A");
-        this.set('candidates.' + index + '.errorMargin', "N/A");
+    for (var i = 0; i < this.answersRequest.length; i++) {
+      if (this.candidatesRequest[index].answers.length == 0) {
+        this.set('candidatesRequest.' + index + '.calculatedMatch', "N/A");
+        this.set('candidatesRequest.' + index + '.errorMargin', "N/A");
+        this.set('candidatesRequest.' + index + '.matchSmartvotePercentage', "N/A");
         return;
       }
-      var candidateValue = this.candidates[index].answers.find(x => x.questionId === this.answers[i].questionId).value;
-      var myValue = this.answers[i].value;
-      var myWeight = this.answers[i].weight === "DOUBLE" ? 2 : this.answers[i].weight === "HALF" ? 0.5 : 1;
+      var candidateValue = this.candidatesRequest[index].answers.find(x => x.questionId === this.answersRequest[i].questionId).value;
+      var myValue = this.answersRequest[i].value;
+      var myWeight = this.answersRequest[i].weight === "DOUBLE" ? 2 : this.answersRequest[i].weight === "HALF" ? 0.5 : 1;
       distance += Math.pow(myWeight * (myValue - candidateValue), 2);
       maxDistance += Math.pow((100 * myWeight), 2);
     }
     distance = Math.sqrt(distance);
     maxDistance = Math.sqrt(maxDistance);
     matching = 100 * (1- (distance/maxDistance));
-    var errorMargin = (matching - this.candidates[index].match) / matching * 100 > 0 ?  "+" + ((matching - this.candidates[index].match) / matching * 100).toFixed(2) + "%" : ((matching - this.candidates[index].match) / matching * 100).toFixed(2) + "%";
-    var colorErrorMargin = Math.abs((matching - this.candidates[index].match) / matching) < 0.01 ?  "goodErrorMargin" : "badErrorMargin";
+    var errorMargin = (matching - this.candidatesRequest[index].match) / matching * 100 > 0 ?  "+" + ((matching - this.candidatesRequest[index].match) / matching * 100).toFixed(2) + "%" : ((matching - this.candidatesRequest[index].match) / matching * 100).toFixed(2) + "%";
+    var colorErrorMargin = Math.abs((matching - this.candidatesRequest[index].match) / matching) < 0.01 ?  "goodErrorMargin" : "badErrorMargin";
+    var percentageSmartvoteMatching = this.candidatesRequest[index].match + "%";
     matching = matching.toFixed(1) + "%";
-    this.set('candidates.' + index + '.calculatedMatch', matching);
-    this.set('candidates.' + index + '.errorMargin', errorMargin);
-    this.set('candidates.' + index + '.colorError', colorErrorMargin);
+    this.set('candidatesRequest.' + index + '.matchSmartvotePercentage', percentageSmartvoteMatching);
+    this.set('candidatesRequest.' + index + '.calculatedMatch', matching);
+    this.set('candidatesRequest.' + index + '.errorMargin', errorMargin);
+    this.set('candidatesRequest.' + index + '.colorError', colorErrorMargin);
   }
 
   _requestRequestRecommendationId(){
@@ -465,8 +88,8 @@ class SwissVotingAdviceVerifier extends PolymerElement {
   }
 
   _requestCandidate(){
-    for (var i = 0; i < this.candidates.length; i++) {
-      var candidateId = this.candidates[i].id;
+    for (var i = 0; i < this.candidatesRequest.length; i++) {
+      var candidateId = this.candidatesRequest[i].id;
       var requester = this.$.smartVoteRequesterCandidateInfo;
       requester.url = this.$.connector.getSmartvoteUrl();
       requester.body = {
@@ -498,13 +121,14 @@ class SwissVotingAdviceVerifier extends PolymerElement {
       myCandidate.match = candidatesWithMatchings[i].matchValue ? candidatesWithMatchings[i].matchValue: "N/A";
       myCandidatesMatchinginfo.push(myCandidate)
     }
-    this.set('candidatesRequest', myCandidatesMatchinginfo)
+    this.set('candidatesRequest', myCandidatesMatchinginfo);
+    this._requestCandidate();
   }
 
   _receivedCandidate(e){
     var id = e.detail.response.data.candidate.id;
-    var index = this.candidates.findIndex(x => x.id == id)
-    this.candidates[index].answers = e.detail.response.data.candidate.answers;
+    var index = this.candidatesRequest.findIndex(x => x.id == id)
+    this.candidatesRequest[index].answers = e.detail.response.data.candidate.answers;
     this._calculateActualValue(index);
   }
 
@@ -524,7 +148,8 @@ class SwissVotingAdviceVerifier extends PolymerElement {
     <style>
     .flexBoxWrapper{
       display: flex;
-      flex-direction: column
+      flex-direction: column;
+      padding: 2%;
     }
     .candidateRowFlexBox, .headerFlexBox{
       display: flex;
@@ -552,7 +177,7 @@ class SwissVotingAdviceVerifier extends PolymerElement {
 
     <div class="flexBoxWrapper">
     <h1 class="centeredInFlexbox">Swiss voting advice verifier (only smartvote right now, zurich-ständerat hahaha)</h1>
-    <p>Enter the answers you want to evaluate (F12 -> graphhql -> operationName == "CreateRecommendation" -> variables.answers (view source))</p>
+    <p>Enter the answers you want to evaluate (F12 -> graphhql -> operationName = "CreateRecommendation" -> variables.answers (view source))</p>
     <paper-input id="jsonInput" label="Enter your json-recommendation!"></paper-input>
     <paper-button class="flexEnd" raised on-click="_requestRequestRecommendationId">Calculate match</paper-button>
     <table>
@@ -563,11 +188,11 @@ class SwissVotingAdviceVerifier extends PolymerElement {
     <th class="rightAlignedNumber">Calculated value</th>
     <th class="rightAlignedNumber">Error margin</th>
     </tr>
-    <template is="dom-repeat" items={{candidates}}>
+    <template is="dom-repeat" items={{candidatesRequest}}>
     <tr>
     <td class="leftAlignedNameSection">{{item.firstName}}</td>
     <td class="leftAlignedNameSection">{{item.lastName}}</td>
-    <td class="rightAlignedNumber">{{item.match}}</td>
+    <td class="rightAlignedNumber">{{item.matchSmartvotePercentage}}</td>
     <td class="rightAlignedNumber">{{item.calculatedMatch}}</td>
     <td  class$="[[item.colorError]] rightAlignedNumber">{{item.errorMargin}}</td>
     </tr>
