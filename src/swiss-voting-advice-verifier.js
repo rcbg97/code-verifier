@@ -71,11 +71,19 @@ class SwissVotingAdviceVerifier extends PolymerElement {
   }
 
   _requestRequestRecommendationId(){
+    if (this.$.jsonInput.value == "") {
+      alert('Please enter the json to validate!');
+      return;
+    }
+    if (!this.idForVotingDistrict){
+      alert('Please select a canton!');
+      return;
+    }
+
     var answers = JSON.parse(this.$.jsonInput.value);
     this.answersRequest = answers;
     var requester = this.$.smartVoteIdRequester;
     requester.url = this.$.connector.getSmartvoteUrl();
-    console.log(this.idForVotingDistrict);
     requester.body = {
       "operationName": "CreateRecommendation",
       "variables": {
@@ -179,7 +187,7 @@ class SwissVotingAdviceVerifier extends PolymerElement {
   }
 
   _changeVotingParameters(){
-    if (this.$.cantonSelectorDropdown.selected) {
+    if (this.$.cantonSelectorDropdown.selected || this.$.cantonSelectorDropdown.selected == 0) {
       this.idForVotingDistrict = this.$.electionTypeChanger.checked ? this.dropdownCantons[this.$.cantonSelectorDropdown.selected].idNr : this.dropdownCantons[this.$.cantonSelectorDropdown.selected].idSr;
     }
     this.idForVotingElectionId = this.$.electionTypeChanger.checked ? "222" : "223";
