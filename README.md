@@ -8,6 +8,6 @@ Smartvote -> algorithm appears to work with ZH-Ständeräte (json with answers)
 
 **if needed**:
 *smartvote*
--> add dropdown for kantönli :P
+-> nr and lists?
 
 -> do the same for *easyvote* and *vimentis*

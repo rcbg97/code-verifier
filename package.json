@@ -6,10 +6,15 @@
   "author": "Roberto Baumann",
   "dependencies": {
     "@polymer/iron-ajax": "^3.0.1",
+    "@polymer/neon-animation": "^3.0.1",
     "@polymer/paper-button": "^3.0.1",
     "@polymer/paper-checkbox": "latest",
+    "@polymer/paper-dropdown-menu": "^3.0.1",
     "@polymer/paper-input": "^3.0.2",
+    "@polymer/paper-item": "^3.0.1",
+    "@polymer/paper-listbox": "^3.0.1",
     "@polymer/polymer": "latest",
-    "@webcomponents/webcomponentsjs": "latest"
+    "@webcomponents/webcomponentsjs": "latest",
+    "web-animations-js": "^2.3.2"
   }
 }

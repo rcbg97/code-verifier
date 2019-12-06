@@ -2,6 +2,9 @@ import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import '@polymer/polymer/lib/elements/dom-if.js';
 import '@polymer/paper-button/paper-button.js';
 import '@polymer/paper-input/paper-input.js';
+import '@polymer/paper-item/paper-item.js';
+import '@polymer/paper-listbox/paper-listbox.js';
+import '@polymer/paper-dropdown-menu/paper-dropdown-menu.js';
 import '@polymer/iron-ajax/iron-ajax.js';
 import './service-connector.js';
 import { setPassiveTouchGestures } from '@polymer/polymer/lib/utils/settings';
@@ -14,6 +17,21 @@ class SwissVotingAdviceVerifier extends PolymerElement {
       },
       candidatesRequest: {
         type: Array,
+      },
+      idForVoting: {
+        type: String
+      },
+      dropdownCantons: {
+        type: Array,
+        value: [{idSr:"44400000000",name :"Aargau", idNr:"44200000000"},{idSr:"44400000001",name :"Appenzell Ausserrhoden", idNr:"44200000001"},
+        {idSr:"44400000002",name :"Appenzell Innerrhoden", idNr:"44200000002"}, {idSr:"44400000003",name :"Basel-Landschaft", idNr:"44200000003"},{idSr:"44400000004",name :"Basel-Stadt", idNr:"44200000004"},
+        {idSr:"44400000005",name :"Bern", idNr:"44200000005"}, {idSr:"44400000006",name :"Freiburg", idNr:"44200000006"},{idSr:"44400000007",name :"Genf", idNr:"44200000007"},
+        {idSr:"44400000008",name :"Glarus", idNr:"44200000008"}, {idSr:"44400000009",name :"Graubünden", idNr:"44200000009"},{idSr:"44400000010",name :"Jura", idNr:"44200000010"},
+        {idSr:"44400000011",name :"Luzern", idNr:"44200000011"},{idSr:"44400000012",name :"Neuenburg", idNr:"44200000012"},{idSr:"44400000013",name :"Nidwalden", idNr:"44200000013"},
+        {idSr:"44400000014",name :"Obwalden", idNr:"44200000014"},{idSr:"44400000015",name :"Schaffhausen", idNr:"44200000015"},{idSr:"44400000016",name :"Schwyz", idNr:"44200000016"},
+        {idSr:"44400000017",name :"Solothurn", idNr:"44200000017"},{idSr:"44400000018",name :"St.Gallen", idNr:"44200000018"},{idSr:"44400000019",name :"Tessin", idNr:"44200000019"},
+        {idSr:"44400000020",name :"Thurgau", idNr:"44200000020"},{idSr:"44400000021",name :"Uri", idNr:"44200000021"},{idSr:"44400000022",name :"Waadt", idNr:"44200000022"},
+        {idSr:"44400000023",name :"Wallis", idNr:"44200000023"},{idSr:"44400000025",name :"Zug", idNr:"44200000025"},{idSr:"44400000024",name :"Zürich", idNr:"44200000024"}]
       }
     };
   }
@@ -58,7 +76,7 @@ class SwissVotingAdviceVerifier extends PolymerElement {
       "variables": {
         "options": {
           "electionId": "223",
-          "districtId": "44400000024",
+          "districtId": this.idForVoting,
           "responderType": "Candidate",
           "voterId": "4a158b00-0187-11ea-a56b-a7b17dfd8fdc",
           "origin": "smartvote",
@@ -132,6 +150,10 @@ class SwissVotingAdviceVerifier extends PolymerElement {
     this._calculateActualValue(index);
   }
 
+  _errorReceivingCantons(){
+    alert("Could not get cantons");
+  }
+
   _idErrorRequest(){
     alert("could not get id for calculation!");
   }
@@ -143,6 +165,9 @@ class SwissVotingAdviceVerifier extends PolymerElement {
     alert("could not fetch candidate!");
   }
 
+  cantonChanged(e){
+    this.idForVoting = this.dropdownCantons[e.detail.value].idSr;
+  }
   static get template () {
     return html`
     <style>
@@ -161,6 +186,9 @@ class SwissVotingAdviceVerifier extends PolymerElement {
     .flexEnd {
       align-self: flex-end;
     }
+    .flexStart{
+      align-self: flex-start;
+    }
     .rightAlignedNumber {
       text-align: right;
     }
@@ -173,10 +201,18 @@ class SwissVotingAdviceVerifier extends PolymerElement {
     .badErrorMargin {
       color: red;
     }
+
     </style>
 
     <div class="flexBoxWrapper">
     <h1 class="centeredInFlexbox">Swiss voting advice verifier (only smartvote right now, zurich-ständerat hahaha)</h1>
+    <paper-dropdown-menu class="flexStart" label="Select your canton">
+    <paper-listbox slot="dropdown-content" on-selected-changed="cantonChanged">
+    <template id ="dropDownForSelection" is="dom-repeat" items="{{dropdownCantons}}">
+    <paper-item>{{item.name}}</paper-item>
+    </template>
+    </paper-listbox>
+    </paper-dropdown-menu>
     <p>Enter the answers you want to evaluate (F12 -> graphhql -> operationName = "CreateRecommendation" -> variables.answers (view source))</p>
     <paper-input id="jsonInput" label="Enter your json-recommendation!"></paper-input>
     <paper-button class="flexEnd" raised on-click="_requestRequestRecommendationId">Calculate match</paper-button>
@@ -188,7 +224,7 @@ class SwissVotingAdviceVerifier extends PolymerElement {
     <th class="rightAlignedNumber">Calculated value</th>
     <th class="rightAlignedNumber">Error margin</th>
     </tr>
-    <template is="dom-repeat" items={{candidatesRequest}}>
+    <template is="dom-repeat" items="{{candidatesRequest}}">
     <tr>
     <td class="leftAlignedNameSection">{{item.firstName}}</td>
     <td class="leftAlignedNameSection">{{item.lastName}}</td>
