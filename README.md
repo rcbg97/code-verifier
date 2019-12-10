@@ -2,7 +2,7 @@
 
 ##Results
 
-Smartvote -> algorithm appears to work with ZH-Ständeräte (json with answers)
+Smartvote -> algorithm appears to work with Ständeräte/Nationalräte (json with answers)
 
 ##TODO
 
@@ -10,4 +10,4 @@ Smartvote -> algorithm appears to work with ZH-Ständeräte (json with answers)
 *smartvote*
 -> nr-lists?
 
--> do the same for *easyvote* and *vimentis*
+-> do the same for *easyvote* and *vimentis* -> how though...
