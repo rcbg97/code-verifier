@@ -1,11 +1,11 @@
 {
   "entrypoint": "index.html",
-  "shell": "src/start-polymer3.js",
+  "shell": "src/swiss-voting-advice-verifier.js",
   "fragments": [
-    "src/lazy-element.js"
+    "src/service-connector.js"
   ],
   "sources": [
-   "src/start-polymer3.js",
+   "src/**/*",
    "manifest/**",
    "package.json"
   ],
@@ -14,7 +14,7 @@
     "node_modules/@webcomponents/webcomponentsjs/**"
   ],
   "builds": [
-    { 
+    {
       "preset": "es6-unbundled"
     }
   ],
