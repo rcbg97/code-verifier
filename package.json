@@ -1,9 +1,7 @@
 {
-  "name": "swiss-voting system verifier",
-  "version": "3.0.0",
-  "main": "src/swiss-voting-advice-verifier.js",
-  "repository": "https://github.com/rcbg97/code-verifier.git",
-  "author": "Roberto Baumann",
+  "name": "start-polymer3",
+  "author": "The Polymer Project Authors",
+  "license": "BSD-3-Clause",
   "dependencies": {
     "@polymer/iron-ajax": "^3.0.1",
     "@polymer/neon-animation": "^3.0.1",
