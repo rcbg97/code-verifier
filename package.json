@@ -1,6 +1,7 @@
 {
   "name": "start-polymer3",
   "author": "The Polymer Project Authors",
+  "repository": "https://github.com/PolymerLabs/start-polymer3.git",
   "license": "BSD-3-Clause",
   "dependencies": {
     "@polymer/iron-ajax": "^3.0.1",
