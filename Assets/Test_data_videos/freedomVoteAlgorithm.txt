@@ -1,0 +1,108 @@
+def politician_statistic_view(request, politician_id):
+    category_id = int(request.GET.get('category', False))
+    titles  = [force_text(_('total'))]
+
+    if category_id:
+        category = get_object_or_404(Category, id=category_id)
+        titles.append(category.name)
+
+    if 'evaluate' in request.GET:
+        cat_by_id = {
+            cat.id: cat
+            for cat
+            in Category.objects.all()
+        }
+
+        # politician answers
+        pol_answers = Answer.objects.filter(politician_id=politician_id)
+        # array for pairs
+        pairs = []
+        # my answers answers
+        answers    = get_cookie(request, 'answers',    {})
+
+        delta_by_cat = collections.defaultdict(lambda: [])
+        # go through politician answers
+        for ans in pol_answers:
+            # my value, per question -> look for value in my answers assigning questions_id from polit answers to mine -> 0 is default
+            voter_value = int(answers.get('question_%s' % ans.question_id, 0))
+            # get absolute polit.answer - myAnswer
+            delta       = abs(ans.agreement_level - voter_value)
+            # add delta for answers per category_id to dict
+            delta_by_cat[ans.question.category_id].append(delta)
+
+        # go through results
+        for cid, cat in cat_by_id.items():
+            # check for empty
+            if not len(delta_by_cat[cid]):
+                continue
+
+            # add to pairs; value every value from category -> 10 - mean;
+            pairs.append({
+                'category': cat.name,
+                'value':    (
+                    10 - sum(delta_by_cat[cid]) /
+                    float(len(delta_by_cat[cid]))
+                )
+            })
+
+        # sort pairs
+        sorted_pairs = sorted(pairs, key=lambda k: k['category'])
+
+        # fill detail -> return
+        detail = {
+            'categories' : [i['category'] for i in sorted_pairs],
+            'values'     : [i['value']    for i in sorted_pairs]
+        }
+
+        # set pos and neg by going through every category
+        total = sum(detail['values']) / len(detail['values'])
+        pos     = [total]
+        neg     = [(10 - total)]
+
+        if category_id:
+            val = 10 - (
+                sum(delta_by_cat[category_id]) /
+                float(len(delta_by_cat[category_id])))
+            pos.append(val)
+            neg.append(10 - val)
+
+        summary = {
+            'titles' : titles,
+            'values' : {
+                'positive' : pos,
+                'negative' : neg
+            }
+        }
+
+    else:
+        statistics = Statistic.get_statistics_by_politician(politician_id)
+        values  = [s.accordance for s in statistics]
+        total   = sum(values) / len(values)
+
+        # pos is the green part (agreement level) of the graph,
+        # neg is the "rest" (red)
+        pos     = [total]
+        neg     = [(10 - total)]
+
+        if category_id:
+            # if category_id is given, the graph should display this
+            # category in addition to the summary view
+            statistic = Statistic.objects.get(
+                politician_id=politician_id, category=category)
+            pos.append(statistic.value / 10)
+            neg.append(10 - statistic.value / 10)
+
+        summary = {
+            'titles' : titles,
+            'values' : {
+                'positive' : pos,
+                'negative' : neg
+            }
+        }
+
+        detail  = {
+            'categories' : [s.category.name for s in statistics],
+            'values'     : values
+        }
+
+    return JsonResponse({'summary': summary, 'detail': detail})
