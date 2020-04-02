@@ -42,8 +42,11 @@ class SwissVotingAdviceVerifier extends PolymerElement {
 
   _calculateActualValue(index){
     var distance = 0;
+    var distanceKleinEuclid = 0;
     var maxDistance = 0;
     var matching = 0;
+    var matchingingKlein = 0;
+    var maxDistanceKlein = 0;
     for (var i = 0; i < this.answersRequest.length; i++) {
       if (this.candidatesRequest[index].answers.length == 0) {
         this.set('candidatesRequest.' + index + '.calculatedMatch', "N/A");
@@ -55,11 +58,17 @@ class SwissVotingAdviceVerifier extends PolymerElement {
       var myValue = this.answersRequest[i].value;
       var myWeight = this.answersRequest[i].weight === "DOUBLE" ? 2 : this.answersRequest[i].weight === "HALF" ? 0.5 : 1;
       distance += Math.pow(myWeight * (myValue - candidateValue), 2);
+      distanceKleinEuclid += myWeight * Math.pow(myValue - candidateValue, 2);
       maxDistance += Math.pow((100 * myWeight), 2);
+      maxDistanceKlein += myWeight * Math.pow((100), 2);
     }
+    distanceKleinEuclid = Math.sqrt(distanceKleinEuclid);
     distance = Math.sqrt(distance);
     maxDistance = Math.sqrt(maxDistance);
+    maxDistanceKlein = Math.sqrt(maxDistanceKlein);
     matching = 100 * (1- (distance/maxDistance));
+    matchingingKlein = 100 * (1- (distanceKleinEuclid/maxDistanceKlein));
+    console.log(matching, matchingingKlein);
     var errorMargin = (matching - this.candidatesRequest[index].match) / matching * 100 > 0 ?  "+" + ((matching - this.candidatesRequest[index].match) / matching * 100).toFixed(2) + "%" : ((matching - this.candidatesRequest[index].match) / matching * 100).toFixed(2) + "%";
     var colorErrorMargin = Math.abs((matching - this.candidatesRequest[index].match) / matching) < 0.01 ?  "goodErrorMargin" : "badErrorMargin";
     var percentageSmartvoteMatching = this.candidatesRequest[index].match + "%";
@@ -193,6 +202,28 @@ class SwissVotingAdviceVerifier extends PolymerElement {
     this.idForVotingElectionId = this.$.electionTypeChanger.checked ? "222" : "223";
   }
 
+  _testCalc() {
+    let answers = [{v: .75, c: .5, w: 2}, {v: .25, c: 1, w: .5}]
+    let matchingKlein = 0;
+    let matchingSm = 0;
+    let distanceKleinEuclid = 0;
+    let distanceSm = 0;
+    let maxDistanceKleinEuclid = 0;
+    let maxDistanceSm = 0;
+    for (var i = 0; i < answers.length; i++) {
+      distanceKleinEuclid += (answers[i].w * Math.pow(answers[i].v-answers[i].c, 2));
+      distanceSm += (Math.pow(answers[i].w * (answers[i].v-answers[i].c), 2));
+      maxDistanceKleinEuclid += answers[i].w*1
+      maxDistanceSm += Math.pow((answers[i].w*1), 2)
+    }
+    distanceKleinEuclid = Math.sqrt(distanceKleinEuclid);
+    distanceSm = Math.sqrt(distanceSm);
+    maxDistanceKleinEuclid = Math.sqrt(maxDistanceKleinEuclid);
+    maxDistanceSm = Math.sqrt(maxDistanceSm);
+    matchingSm = 100 * (1- (distanceSm/maxDistanceSm));
+    matchingKlein = 100 * (1- (distanceKleinEuclid/maxDistanceKleinEuclid));
+    console.log("Sm: " + matchingSm, "Klein: " + matchingKlein);
+  }
   static get template () {
     return html`
     <style>
@@ -257,6 +288,7 @@ class SwissVotingAdviceVerifier extends PolymerElement {
     <p>Enter the answers you want to evaluate (F12 -> graphhql -> operationName = "CreateRecommendation" -> variables.answers (view source))</p>
     <paper-input id="jsonInput" label="Enter your json-recommendation!"></paper-input>
     <paper-button class="flexEnd" raised on-click="_requestRequestRecommendationId">Calculate match</paper-button>
+    <paper-button class="flexEnd" raised on-click="_testCalc">Test match</paper-button>
     <table>
     <tr>
     <th class="leftAlignedNameSection">First name</th>
