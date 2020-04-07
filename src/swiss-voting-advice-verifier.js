@@ -261,7 +261,7 @@ class SwissVotingAdviceVerifier extends PolymerElement {
     <tr>
     <th class="leftAlignedNameSection">First name</th>
     <th class="leftAlignedNameSection">Last name</th>
-    <th class="rightAlignedNumber">Match value</th>
+    <th class="rightAlignedNumber">smartvote value</th>
     <th class="rightAlignedNumber">Calculated value</th>
     <th class="rightAlignedNumber">Error margin</th>
     </tr>
