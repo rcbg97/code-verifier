@@ -36,7 +36,7 @@ def politician_statistic_view(request, politician_id):
             if not len(delta_by_cat[cid]):
                 continue
 
-            # add to pairs; value every value from category -> 10 - mean;
+            # add to pairs; value every value from category -> 10 - difference/amoutOfQuestions
             pairs.append({
                 'category': cat.name,
                 'value':    (
