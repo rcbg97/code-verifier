@@ -12,12 +12,3 @@ fill out some questions in the questionnaire -> you can skip the additional info
 ## Results
 
 Smartvote -> algorithm appears to work with Ständeräte/Nationalräte (json with answers)
-
-## TODO
-
-**if needed**:
-
-*smartvote*
--> nr-lists?
-
--> do the same for *vimentis* -> how though...
