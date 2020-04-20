@@ -60,7 +60,6 @@ class SwissVotingAdviceVerifier extends PolymerElement {
     distance = Math.sqrt(distance);
     maxDistance = Math.sqrt(maxDistance);
     matching = this._round(100 * (1- (distance/maxDistance)), 1);
-    console.log(matching);
     var errorMargin = (matching - this.candidatesRequest[index].match) / matching * 100 > 0 ?  "+" + ((matching - this.candidatesRequest[index].match) / matching * 100).toFixed(2) + "%" : ((matching - this.candidatesRequest[index].match) / matching * 100).toFixed(2) + "%";
     var colorErrorMargin = Math.abs((matching - this.candidatesRequest[index].match) / matching) < 0.01 ?  "goodErrorMargin" : "badErrorMargin";
     var percentageSmartvoteMatching = this.candidatesRequest[index].match + "%";
